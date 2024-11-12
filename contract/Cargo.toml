@@ -1,0 +1,26 @@
+[package]
+name = "contract"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+soroban-sdk = "21.7.6"
+soroban-token-sdk = "21.7.6"
+hex = "0.4.3"
+
+[dev-dependencies]
+soroban-sdk ={ version = "21.7.6", features = ["testutils"] }
+
+[features]
+testutils = ["soroban-sdk/testutils"]
+
+[profile.release-with-logs]
+inherits = "release"
+debug-assertions = true
+
+[profile.release]
+opt-level = "z"
+overflow-checks = true
