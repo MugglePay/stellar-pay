@@ -1,31 +1,65 @@
 use soroban_sdk::{contracttype, Address};
 
-#[derive(Clone, Debug)]
-#[contracttype]
-pub struct ContractConfig {
-    pub owner: Address,
-    pub soroswap_router: Address,
-    pub usdc_token: Address,
-    pub fee_recipient: Address,
-    pub paused: bool,
-}
+pub(crate) const FEE_DECIMALS: u32 = 4;
 
-#[derive(Clone, Debug)]
-#[contracttype]
-pub struct ExpectedOutputResult {
-    pub amount_out: i128,
-    pub min_amount_out: i128,
-    pub slippage_rate: i128,
-}
+pub(crate) const DAY_IN_LEDGERS: u32 = 17280;
+pub(crate) const INSTANCE_BUMP_AMOUNT: u32 = 7 * DAY_IN_LEDGERS; // 7 days
+pub(crate) const INSTANCE_LIFETIME_THRESHOLD: u32 = INSTANCE_BUMP_AMOUNT - DAY_IN_LEDGERS; // 6 days
+pub(crate) const BALANCE_BUMP_AMOUNT: u32 = 30 * DAY_IN_LEDGERS; // 30 days
 
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 #[contracttype]
-pub struct SwapQuote {
-    pub input_amount: i128,
-    pub net_input_amount: i128,
-    pub expected_output: i128,
-    pub minimum_output: i128,
-    pub fee_amount: i128,
+pub struct FeeInfo {
     pub fee_rate: u32,
-    pub slippage_rate: i128,
+    pub fee_wallet: Address,
+}
+
+#[derive(Clone, Copy, PartialEq)]
+#[contracttype]
+pub enum OrderStatus {
+    INIT = 0,
+    ACTIVE = 1,
+    COMPLETE = 2,
+    CANCEL = 3
+}
+
+// Represents an offer managed by the Swap contract.
+// If an sender wants to swap 1000 XLM for 20 USDC, the `send_amount` would be 1000
+// and `recv_amount` would be 20
+#[derive(Clone)]
+#[contracttype]
+pub struct OrderInfo {
+    // Owner of this offer. Swaps send_token with recv_token.
+    pub sender: Address,
+
+    pub send_token: Address,
+    pub recv_token: Address,
+
+    // sender-defined amount of the input token
+    pub send_amount: u64,
+    // sender-defined amount of the recv token
+    pub recv_amount: u64,
+    pub min_output_amount: u64,
+
+    pub status: OrderStatus
+}
+
+#[derive(Clone)]
+#[contracttype]
+pub struct OrderKey {
+    pub sender: Address,
+    pub send_token: Address,
+    pub recv_token: Address,
+    pub timestamp: u32,
+}
+
+#[derive(Clone)]
+#[contracttype]
+pub enum StorageKey {
+    FEE,
+    Allowance(Address),
+    OrderCount,
+    RegOrders(u32),
+    ErrorCode,
+    Admin,
 }

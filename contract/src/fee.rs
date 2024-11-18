@@ -1,75 +1,33 @@
-use soroban_sdk::{Address, Env, Symbol, symbol_short, token::Client as TokenClient, String};
-use crate::errors::SwapError;
+use crate::admin::read_admin;
+use crate::types::{FeeInfo, StorageKey, FEE_DECIMALS};
+use soroban_sdk::Env;
 
-pub struct FeeManager;
+pub fn fee_check(e: &Env) -> bool {
+    let key = StorageKey::FEE;
 
-impl FeeManager {
-    const DATA_KEY_FEE_RATE: Symbol = symbol_short!("fee_rate");
+    if e.storage().instance().has(&key) {
+        true
+    } else {
+        false
+    }
+}
 
-    /// Configure fees (owner-only)
-    pub fn configure_fees(
-        env: &Env,
-        _sender: &Address,
-        fee_rate: u32,
-        _fee_recipient: Address
-    ) -> Result<(), SwapError> {
-        // Validate fee rate
-        if fee_rate > 1000 {  // Max 10%
-            return Err(SwapError::InvalidFeeRate);
-        }
+pub fn fee_get(e: &Env) -> FeeInfo {
+    let key = StorageKey::FEE;
 
-        // Store fee rate
-        env.storage().instance().set(
-            &Self::DATA_KEY_FEE_RATE,
-            &fee_rate
-        );
-
-        Ok(())
+    if !e.storage().instance().has(&key) {
+        panic!("Fee wasn't initialized");
     }
 
-    /// Calculate fee without transfer
-    pub fn calculate_fee(
-        env: &Env,
-        amount_in: i128
-    ) -> (i128, i128) {
-        let fee_rate = Self::get_current_fee_rate(env);
-        let fee_amount = (amount_in * fee_rate as i128) / 10_000;
-        let net_amount = amount_in - fee_amount;
+    e.storage().instance().get(&key).unwrap()
+}
 
-        (net_amount, fee_amount)
-    }
+pub fn fee_set(e: &Env, fee_info: &FeeInfo) {
+    let admin = read_admin(&e);
+    admin.require_auth();
+    e.storage().instance().set(&StorageKey::FEE, fee_info);
+}
 
-    /// Calculate and transfer fee
-    pub fn calculate_and_transfer_fee(
-        env: &Env,
-        amount_in: i128,
-        fee_recipient: &Address
-    ) -> Result<(i128, i128), SwapError> {
-        // Calculate fee
-        let (net_amount, fee_amount) = Self::calculate_fee(env, amount_in);
-
-        // Native token address
-        let native_address = Address::from_string(&String::from_str(&env, "native"));
-
-        let native_contract = TokenClient::new(
-            env,
-            &native_address
-        );
-
-        // Transfer fee
-        native_contract.transfer(
-            &env.current_contract_address(),
-            fee_recipient,
-            &fee_amount
-        );
-
-        Ok((net_amount, fee_amount))
-    }
-
-    /// Get current fee rate
-    pub fn get_current_fee_rate(env: &Env) -> u32 {
-        env.storage().instance()
-            .get(&Self::DATA_KEY_FEE_RATE)
-            .unwrap_or(25)  // Default 0.25%
-    }
+pub fn calculate_fee(_e: &Env, fee_info: &FeeInfo, amount: u64) -> u64 {
+    amount * (fee_info.fee_rate as u64) / (u64::pow(10, FEE_DECIMALS))
 }

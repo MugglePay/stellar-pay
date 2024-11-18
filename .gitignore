@@ -1,4 +1,5 @@
 /contract/target
 /contract/test_snapshots
+/contract/.soroban
 
 .idea
