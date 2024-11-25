@@ -1,0 +1,3 @@
+rpc_url = "https://horizon.stellar.org"
+rpc_headers = []
+network_passphrase = "Public Global Stellar Network ; September 2015"

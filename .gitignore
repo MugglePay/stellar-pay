@@ -2,4 +2,8 @@
 /contract/test_snapshots
 /contract/.soroban
 
+/contract-soroswap/target
+/contract-soroswap/test_snapshots
+/contract-soroswap/.soroban
+
 .idea

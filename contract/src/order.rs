@@ -1,15 +1,25 @@
-use soroban_sdk::{log, symbol_short, token, Address, Env, Symbol};
+use soroban_sdk::{log, symbol_short, token, Address, Env, Symbol, String, Vec, vec, IntoVal};
+use soroban_sdk::auth::{ContractContext, InvokerContractAuthEntry, SubContractInvocation};
+use soroban_sdk::token::TokenClient;
 use soroban_sdk::unwrap::UnwrapOptimized;
+use crate::admin::get_token_client;
 
 const ORDER: Symbol = symbol_short!("ORDER");
 
 use crate::fee::{calculate_fee, fee_check, fee_get};
-use crate::types::{
-    OrderInfo, OrderStatus, StorageKey, BALANCE_BUMP_AMOUNT, INSTANCE_BUMP_AMOUNT,
-    INSTANCE_LIFETIME_THRESHOLD,
-};
+use crate::types::{OrderInfo, OrderStatus, StorageKey, BALANCE_BUMP_AMOUNT, INSTANCE_BUMP_AMOUNT, INSTANCE_LIFETIME_THRESHOLD, SOROSWAP_FACTORY_ADDRESS, SOROSWAP_ROUTER_ADDRESS};
 
-/*
+mod soroswap_router {
+    soroban_sdk::contractimport!(file = "soroswap_router.wasm");
+}
+use soroswap_router::Client as SoroswapRouterClient;
+
+mod soroswap_pair {
+    soroban_sdk::contractimport!(file = "soroswap_pair.wasm",);
+}
+use soroswap_pair::Client as SoroswapPairClient;
+
+/*  
 How this contract should be used:
 
 1. Call `create_order` once to create an order and register its sender.
@@ -213,7 +223,7 @@ pub fn accept_order(env: &Env, receiver: &Address, order_id: u32, amount: u64) -
     // Transfer the `send_token` from contract to acceptor.
     send_token_client.transfer(&contract, &receiver, &(prop_send_amount as i128));
 
-    // Update Oredr
+    // Update Order
     order.send_amount -= prop_send_amount;
     order.recv_amount -= amount;
 
@@ -256,4 +266,106 @@ fn write_order(e: &Env, key: u32, order: &OrderInfo) {
     e.storage()
         .instance()
         .set(&StorageKey::RegOrders(key), order);
+}
+
+
+// Soroswap Integration
+pub fn get_expected_amount(
+        env: &Env,
+        token_in: &Address,
+        token_out: &Address,
+        amount_in: i128,
+    ) -> i128 {
+    let soro = SoroswapRouterClient::new(&env, &Address::from_str(&env, SOROSWAP_ROUTER_ADDRESS));
+    let factory = Address::from_str(&env, SOROSWAP_FACTORY_ADDRESS);
+
+    let mut path = Vec::new(&env);
+
+    path.push_front(token_in.clone());
+    path.push_back(token_out.clone());
+
+    let amounts = soro.get_amounts_out(&factory.clone(), &amount_in, &path);
+
+    amounts.get(amounts.len() - 1).unwrap()
+}
+
+pub fn soro_swap_and_distribute(
+    env: &Env,
+    token_in: &Address,
+    token_out: &Address,
+    customer: &Address,
+    merchant: &Address,
+    amount_in: i128,
+)  -> i128  {
+    if amount_in == 0 {
+        // panic!("zero amount is not allowed");
+        return 104;
+    }
+
+    // Authorization for create order to verify their identity
+    customer.require_auth();
+
+    let token_client = get_token_client(&env, &token_in.clone());
+
+    let token_balance = token_client.balance(&env.current_contract_address());
+    if token_balance == 0 || amount_in > token_balance {
+        // panic!("insufficient balance");
+        return 106;
+    }
+
+
+    let soro_router_client = SoroswapRouterClient::new(&env, &Address::from_str(&env, SOROSWAP_ROUTER_ADDRESS));
+
+    let pair_contract_address = soro_router_client.router_pair_for(&token_in, &token_out);
+    let soro_pair_client = SoroswapPairClient::new(&env, &pair_contract_address);
+
+    // Get the reserves of the tokens
+    let (reserve_in, reserve_out) = soro_pair_client.get_reserves();
+
+    // Get Expected Amount
+    let max_amount_out =
+        soro_router_client.router_get_amount_out(&amount_in, &reserve_in, &reserve_out);
+
+    // Authorize token transfer for the current contract
+    // Without this tokens cannot be transferred from the current contract to the pair contract
+    env.authorize_as_current_contract(vec![
+        &env,
+        InvokerContractAuthEntry::Contract(SubContractInvocation {
+            context: ContractContext {
+                contract: token_in.clone(),
+                fn_name: Symbol::new(&env, "transfer"),
+                args: (
+                    env.current_contract_address(),
+                    pair_contract_address,
+                    amount_in,
+                )
+                    .into_val(&env),
+            },
+            sub_invocations: vec![&env],
+        }),
+    ]);
+
+    let mut swap_path = Vec::new(&env);
+
+    swap_path.push_front(token_in.clone());
+    swap_path.push_back(token_out.clone());
+
+    // Swap the tokens
+    let res = soro_router_client.swap_exact_tokens_for_tokens(
+        &amount_in,
+        &max_amount_out,
+        &swap_path,
+        &env.current_contract_address(),
+        &u64::MAX,
+    );
+    let total_swapped_amount = res.last().unwrap();
+
+    // Transfer the swapped tokens to the merchant
+    get_token_client(&env, &token_out).transfer(
+        &env.current_contract_address(),
+        &merchant.clone(),
+        &total_swapped_amount,
+    );
+
+    total_swapped_amount
 }

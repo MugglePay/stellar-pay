@@ -1,0 +1,29 @@
+[package]
+name = "contract-soroswap"
+version = "0.1.0"
+edition = "2021"
+description = "XLM to Token swap contract for merchant payments"
+authors = ["Yahya Fakhroji <yahya@mugglepay.com>"]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+soroban-sdk = "22.0.0-rc.3.2"
+
+[dev_dependencies]
+soroban-sdk = { version = "22.0.0-rc.3.2", features = ["testutils"] }
+
+[profile.release]
+opt-level = "z"
+overflow-checks = true
+debug = 0
+strip = "symbols"
+debug-assertions = false
+panic = "abort"
+codegen-units = 1
+lto = true
+
+[profile.release-with-logs]
+inherits = "release"
+debug-assertions = true
