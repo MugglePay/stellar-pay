@@ -3,13 +3,13 @@
 //! It demonstrates one of the ways of how swap might be implemented.
 #![no_std]
 
-use crate::admin::{has_admin, read_admin, write_admin};
+use crate::admin::{has_admin, read_admin, write_admin, get_token_balance};
 use crate::fee::{fee_get, fee_set};
-use crate::order::{accept_order, create_order};
+use crate::order::{accept_order, create_order, get_expected_amount};
 use crate::types::{
     FeeInfo, BALANCE_BUMP_AMOUNT, INSTANCE_BUMP_AMOUNT, INSTANCE_LIFETIME_THRESHOLD,
 };
-use soroban_sdk::{contract, contractimpl, token, Address, Env};
+use soroban_sdk::{contract, contractimpl, token, Address, Env, BytesN};
 
 mod admin;
 mod allow;
@@ -33,7 +33,7 @@ impl MuggleSwap {
 
     /// Admin Section
     pub fn set_admin(env: Env, new_admin: Address) {
-        let admin = read_admin(&env);
+        let admin: Address = read_admin(&env);
         admin.require_auth();
 
         env.storage()
@@ -56,6 +56,10 @@ impl MuggleSwap {
         (fee_info.fee_rate, fee_info.fee_wallet)
     }
 
+    pub fn get_token_balance(e: Env, token_address: Address, owner: Address) -> i128 {
+        get_token_balance(&e, &token_address, &owner)
+    }
+
     // Order Section
     pub fn create_order(
         e: Env,
@@ -65,6 +69,7 @@ impl MuggleSwap {
         send_amount: u64,
         recv_amount: u64,
         min_recv_amount: u64,
+        expiration_ledger: u32,
     ) -> u32 {
         let ret: u32 = create_order(
             &e,
@@ -74,13 +79,20 @@ impl MuggleSwap {
             send_amount,
             recv_amount,
             min_recv_amount,
+            expiration_ledger,
         );
 
         ret
     }
 
-    pub fn accept_order(e: Env, receiver: Address, order_id: u32, amount: u64) -> u32 {
-        let ret: u32 = accept_order(&e, &receiver, order_id, amount);
+    pub fn get_expected_amount(e: Env, token_in: Address, token_out: Address, amount_in: i128) -> i128 {
+        let amount_out = get_expected_amount(&e, &token_in, &token_out, amount_in);
+
+        amount_out
+    }
+
+    pub fn accept_order(e: Env, receiver: Address, order_id: u32, amount: u64, expiration_ledger: u32) -> u32 {
+        let ret: u32 = accept_order(&e, &receiver, order_id, amount, expiration_ledger);
 
         ret
     }
@@ -106,5 +118,16 @@ impl MuggleSwap {
             &amount,
             &(env.ledger().sequence() + BALANCE_BUMP_AMOUNT),
         );
+    }
+
+    pub fn version() -> u32 {
+        2
+    }
+
+    pub fn upgrade(env: Env, new_wasm_hash: BytesN<32>) {
+        let admin: Address = read_admin(&env);
+        admin.require_auth();
+
+        env.deployer().update_current_contract_wasm(new_wasm_hash);
     }
 }

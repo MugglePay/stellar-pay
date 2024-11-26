@@ -16,12 +16,11 @@ impl Events {
         );
     }
 
-    pub fn contract_initialized(
-        env: &Env,
-        router: &Address,
-    ) {
+    pub fn contract_initialized(env: &Env) {
+        let timestamp = env.ledger().timestamp();
+
         env.events().publish(
-            ("contract_initialized", router),
+            ("contract_initialized", timestamp),
             (),
         );
     }

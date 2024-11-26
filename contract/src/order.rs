@@ -1,8 +1,5 @@
-use soroban_sdk::{log, symbol_short, token, Address, Env, Symbol, String, Vec, vec, IntoVal};
-use soroban_sdk::auth::{ContractContext, InvokerContractAuthEntry, SubContractInvocation};
-use soroban_sdk::token::TokenClient;
+use soroban_sdk::{log, symbol_short, token, Address, Env, Symbol, Vec};
 use soroban_sdk::unwrap::UnwrapOptimized;
-use crate::admin::get_token_client;
 
 const ORDER: Symbol = symbol_short!("ORDER");
 
@@ -13,11 +10,6 @@ mod soroswap_router {
     soroban_sdk::contractimport!(file = "soroswap_router.wasm");
 }
 use soroswap_router::Client as SoroswapRouterClient;
-
-mod soroswap_pair {
-    soroban_sdk::contractimport!(file = "soroswap_pair.wasm",);
-}
-use soroswap_pair::Client as SoroswapPairClient;
 
 /*  
 How this contract should be used:
@@ -65,6 +57,7 @@ pub fn create_order(
     send_amount: u64,
     recv_amount: u64,
     min_recv_amount: u64,
+    expiration_ledger: u32,
 ) -> u32 {
     if !fee_check(env) {
         // panic!("fee wasn't set");
@@ -110,7 +103,7 @@ pub fn create_order(
             &sender,
             &contract,
             &(transfer_amount as i128),
-            &(env.ledger().sequence() + BALANCE_BUMP_AMOUNT),
+            &expiration_ledger,
         );
         // return 107;
     }
@@ -132,6 +125,8 @@ pub fn create_order(
         },
     );
 
+    // Try To Swap
+
     let new_order_count: u32 = order_count + 1;
     env.storage()
         .instance()
@@ -146,7 +141,7 @@ pub fn create_order(
 // Swaps `amount` of recv_token from sender for `send_token` amount calculated by the amount.
 // receiver needs to authorize the `swap` call and internal `transfer` call to the contract address.
 
-pub fn accept_order(env: &Env, receiver: &Address, order_id: u32, amount: u64) -> u32 {
+pub fn accept_order(env: &Env, receiver: &Address, order_id: u32, amount: u64, expiration_ledger: u32) -> u32 {
     if !env
         .storage()
         .instance()
@@ -198,7 +193,7 @@ pub fn accept_order(env: &Env, receiver: &Address, order_id: u32, amount: u64) -
             &receiver,
             &contract,
             &((amount + fee_amount) as i128),
-            &(env.ledger().sequence() + BALANCE_BUMP_AMOUNT),
+            &expiration_ledger,
         );
         // return 116;
     }
@@ -235,7 +230,7 @@ pub fn accept_order(env: &Env, receiver: &Address, order_id: u32, amount: u64) -
 
     write_order(env, order_id, &order);
 
-    0
+    order_id
 }
 
 /// Utilities
@@ -289,7 +284,7 @@ pub fn get_expected_amount(
     amounts.get(amounts.len() - 1).unwrap()
 }
 
-pub fn soro_swap_and_distribute(
+/* pub fn soro_swap_and_distribute(
     env: &Env,
     token_in: &Address,
     token_out: &Address,
@@ -368,4 +363,4 @@ pub fn soro_swap_and_distribute(
     );
 
     total_swapped_amount
-}
+} */
