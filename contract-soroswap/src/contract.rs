@@ -91,10 +91,13 @@ impl MuggleDex {
             return Err(Error::InvalidAmount);
         }
 
+        // Require authorization from admin instead of recipient
+        read_admin(&env).require_auth();
+
         let deadline = expiration_ledger;
         // Authorization for create order to verify their identity
         customer.require_auth();
-        merchant.require_auth();
+        // merchant.require_auth();
 
         let config = Self::get_config(&env)?;
         let path = Self::get_swap_path(&env, &input_token.clone(), &output_token.clone());
@@ -131,7 +134,6 @@ impl MuggleDex {
         let expected_out =  router_client.router_get_amount_out(&amount_in.clone(), &reserve_in, &reserve_out);
         let min_amount_out = calculate_min_amount(&env, expected_out);
 
-        let output_token_client = token::Client::new(&env, &output_token.clone());
 
         // Authorize token transfer for the current contract
         // Without this tokens cannot be transferred from the current contract to the pair contract
@@ -142,8 +144,8 @@ impl MuggleDex {
                     contract: input_token.clone(),
                     fn_name: Symbol::new(&env, "transfer"),
                     args: (
-                        env.current_contract_address(),
-                        pair_contract_address,
+                        contract_address.clone(),
+                        pair_contract_address.clone(),
                         amount_in,
                     )
                         .into_val(&env),
@@ -152,25 +154,49 @@ impl MuggleDex {
             }),
         ]);
 
+        let output_token_client = token::Client::new(&env, &output_token.clone());
+
         // Swap the tokens
         let swapped = router_client.swap_exact_tokens_for_tokens(
             &amount_in,
             &min_amount_out,
             &path,
-            &env.current_contract_address(),
+            &contract_address,
             &u64::MAX,
         );
 
         let total_swapped_amount = swapped.last().unwrap();
 
+        /* // Check allowance between merchant and contract address
+        if output_token_client.allowance(&merchant, &contract_address) < (total_swapped_amount as i128) {
+            output_token_client.approve(
+                &merchant,
+                &contract_address,
+                &total_swapped_amount,
+                &deadline,
+            );
+        } */
+
         // Transfer from contract address to merchant
-        output_token_client.transfer(&env.current_contract_address(), &merchant.clone(), &total_swapped_amount);
+        output_token_client.transfer(&contract_address, &merchant.clone(), &total_swapped_amount);
 
         Events::swap_completed(&env, &customer, &merchant, amount_in, total_swapped_amount);
         Ok(total_swapped_amount)
     }
 
+    pub fn token_transfer(
+        env: Env,
+        token: Address,
+        to: Address,
+        amount: i128,
+    ) -> Result<(), Error> {
+        // Require authorization from admin instead of recipient
+        read_admin(&env).require_auth();
 
+        let token_client = token::Client::new(&env, &token);
+        token_client.transfer(&env.current_contract_address(), &to, &amount);
+        Ok(())
+    }
     // Get Config
     pub fn get_config(env: &Env) -> Result<SwapConfig, Error> {
         env.storage()
