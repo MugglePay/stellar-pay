@@ -1,0 +1,20 @@
+{
+  "name": "Testnet Assets curated by Soroswap Protocol",
+  "provider": "MugglePay",
+  "description": "The list of assets curated by MugglePay",
+  "version": "1.0.0",
+  "feedback": "https://github.com/mugglepay",
+  "network": "testnet",
+  "assets": [
+    {
+      "name": "USDCoin",
+      "code": "USDC",
+      "issuer": "GCPJFNZAARY3Z2AM7RVXDZDLPOEBT4QHTQXFOFKMZHLV7PPDKE2M67Q6",
+      "contract": "CAAFIHB4I7WQMJMKC22CZVQNNX7EONWSOMT6SUXK6I3G3F6J4XFRWNDI",
+      "org": "Soroswap Protocol",
+      "domain": "soroswap.finance",
+      "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+      "decimals": 7
+    }
+  ]
+}

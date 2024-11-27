@@ -97,7 +97,7 @@ impl MuggleDex {
         let deadline = expiration_ledger;
         // Authorization for create order to verify their identity
         customer.require_auth();
-        // merchant.require_auth();
+        merchant.require_auth();
 
         let config = Self::get_config(&env)?;
         let path = Self::get_swap_path(&env, &input_token.clone(), &output_token.clone());
