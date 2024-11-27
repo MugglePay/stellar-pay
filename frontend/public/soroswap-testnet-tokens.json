@@ -1,19 +1,420 @@
 {
-  "name": "Testnet Assets curated by Soroswap Protocol",
-  "provider": "MugglePay",
-  "description": "The list of assets curated by MugglePay",
-  "version": "1.0.0",
-  "feedback": "https://github.com/mugglepay",
+  "name": "StellarExpert Top 50",
+  "provider": "StellarExpert",
+  "description": "Dynamically generated list based on technical asset metrics, including payments and trading volumes, interoperability, userbase, etc. Assets included in this list were not verified by StellarExpert team. StellarExpert is not affiliated with issuers, and does not endorse or advertise assets in the list. Assets reported for fraudulent activity removed from the list automatically.",
+  "version": "1.0",
   "network": "testnet",
+  "feedback": "https://stellar.expert",
   "assets": [
     {
-      "name": "USDCoin",
       "code": "USDC",
+      "issuer": "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+      "contract": "CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA",
+      "name": "USDC",
+      "org": "unknown",
+      "domain": "centre.io",
+      "decimals": 7
+    },
+    {
+      "code": "USDCoin",
       "issuer": "GCPJFNZAARY3Z2AM7RVXDZDLPOEBT4QHTQXFOFKMZHLV7PPDKE2M67Q6",
       "contract": "CAAFIHB4I7WQMJMKC22CZVQNNX7EONWSOMT6SUXK6I3G3F6J4XFRWNDI",
-      "org": "Soroswap Protocol",
+      "name": "USDCoin - Soroswap",
+      "org": "unknown",
       "domain": "soroswap.finance",
-      "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+      "decimals": 7
+    },
+    {
+      "code": "mZAR",
+      "issuer": "GC57ZJLYGUOMGDGPD5XFDOTQHQER3QL6B72SPTR3XTEKRY3HJ75NCNBL",
+      "contract": "CATPX7RKNK53ZY5X5X375V72OKZFYQVLTC6XLVJA2XEMEXOMEJHLDPER",
+      "name": "mZAR",
+      "org": "unknown",
+      "domain": "mesh-dev-tokens.mesh.trade",
+      "decimals": 7
+    },
+    {
+      "code": "AQUA",
+      "issuer": "GAHPYWLK6YRN7CVYZOO4H3VDRZ7PVF5UJGLZCSPAEIKJE2XSWF5LAGER",
+      "contract": "CDNVQW44C3HALYNVQ4SOBXY5EWYTGVYXX6JPESOLQDABJI5FC5LTRRUE",
+      "name": "AQUA",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "USDC",
+      "issuer": "GAHPYWLK6YRN7CVYZOO4H3VDRZ7PVF5UJGLZCSPAEIKJE2XSWF5LAGER",
+      "contract": "CAZRY5GSFBFXD7H6GAFBA5YGYQTDXU4QKWKMYFWBAZFUCURN3WKX6LF5",
+      "name": "USDC",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "USDT",
+      "issuer": "GAHPYWLK6YRN7CVYZOO4H3VDRZ7PVF5UJGLZCSPAEIKJE2XSWF5LAGER",
+      "contract": "CBL6KD2LFMLAUKFFWNNXWOXFN73GAXLEA4WMJRLQ5L76DMYTM3KWQVJN",
+      "name": "USDT",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "USDC",
+      "issuer": "GDQOE23CFSUMSVQK4Y5JHPPYK73VYCNHZHA7ENKCV37P6SUEO6XQBKPP",
+      "contract": "CDTY3P6OVY3SMZXR3DZA667NAXFECA6A3AOZXEU33DD2ACBY43CIKDPT",
+      "name": "USDC",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "ZARZ",
+      "issuer": "GCIAIV6KT5DUPJGYTRKOETBC3QOOMDQ5XR3RGN2TFFAZG6655ZI5O5BQ",
+      "contract": "CCCBQZXHU2FFSDHK2O2CDXW3IPRTFJO6W3H7O2D4FROWRVQQFJQUYDN6",
+      "name": "ZARZ",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "SRT",
+      "issuer": "GCDNJUBQSX7AJWLJACMJ7I4BC3Z47BQUTMHEICZLE6MU4KQBRYG5JY6B",
+      "contract": "CBZVLMD5DBKIFSVU23WAVMJD25IRUBWCVAXGURPUPMB2CUNFBQN742UV",
+      "name": "SRT",
+      "org": "unknown",
+      "domain": "testanchor.stellar.org",
+      "decimals": 7
+    },
+    {
+      "code": "USD",
+      "issuer": "GC5QS63GVKKDDEVXPG7SK2K3GXY7ND7VVFGUD6NMML25VM5AZWVQOBAA",
+      "contract": "CAJSPKVY3BVLVISUXJ4NSYYORPRSUZBMF4NIP5LC74CQFKKK7FCFJ2JS",
+      "name": "USD",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "ATUSD",
+      "issuer": "GBT4VVTDPCNA45MNWX5G6LUTLIEENSTUHDVXO2AQHAZ24KUZUPLPGJZH",
+      "contract": "CBBWL5EOM366OOUIUMBDC5J35DIPA26Z6VBNAKTGGBKPGX5DJOWXHQQC",
+      "name": "ATUSD",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "ARST",
+      "issuer": "GB7TAYRUZGE6TVT7NHP5SMIZRNQA6PLM423EYISAOAP3MKYIQMVYP2JO",
+      "contract": "CBONHS7P3WHN24SUWIQIEU4CMX2YX3OMQYIPIFBCOURXDW3LPKM4HRY3",
+      "name": "ARST",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "DOCS",
+      "issuer": "GC5QS63GVKKDDEVXPG7SK2K3GXY7ND7VVFGUD6NMML25VM5AZWVQOBAA",
+      "contract": "CA5BR3BO3MS2Y7URYSN4AIHY4KLLRDPEXWODCTUGBAPWLOEP5RBDEKBR",
+      "name": "DOCS",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "EURC",
+      "issuer": "GB3Q6QDZYTHWT7E5PVS3W7FUT5GVAFC5KSZFFLPU25GO7VTC3NM2ZTVO",
+      "contract": "CCUUDM434BMZMYWYDITHFXHDMIVTGGD6T2I5UKNX5BSLXLW7HVR4MCGZ",
+      "name": "EURC",
+      "org": "unknown",
+      "domain": "circle.com",
+      "decimals": 7
+    },
+    {
+      "code": "eUAH",
+      "issuer": "GDZOER7YB2DXVHULTDJTYIQPFTAWH42UQCYQ6VXVFW75MHHDXEOQKD6X",
+      "contract": "CDVRRDX5BNK4HLRC464IFOTCCEVGUONEGMUAKVBEJJUCKXQVXKKE3S6T",
+      "name": "eUAH",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "USDC",
+      "issuer": "GBI5Y3ND3N7UGNLBIKTSYLADVWVD2YY4ZSBQQU5C2S2CGKATFGJNWUC5",
+      "contract": "CA6HRDHTSOX32MQFPH34UST573PRSALWWWMU6QTOCRJE22DETXRSJXZN",
+      "name": "USDC",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "contract": "CAAFIHB4I7WQMJMKC22CZVQNNX7EONWSOMT6SUXK6I3G3F6J4XFRWNDI",
+      "name": "CAAFIHB4I7WQMJMKC22CZVQNNX7EONWSOMT6SUXK6I3G3F6J4XFRWNDI",
+      "org": "unknown"
+    },
+    {
+      "code": "ETH",
+      "issuer": "GAHPYWLK6YRN7CVYZOO4H3VDRZ7PVF5UJGLZCSPAEIKJE2XSWF5LAGER",
+      "contract": "CC5NJ2JSJF3DDTFW5X4PZHZF2F7YCVDLVM76ZYPR5RTTNB7QNAT7KRWR",
+      "name": "ETH",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "TFT",
+      "issuer": "GA47YZA3PKFUZMPLQ3B5F2E3CJIB57TGGU7SPCQT2WAEYKN766PWIMB3",
+      "contract": "CCUDLQYR27JTUQVOIRQAB6S5IV7QEOGAJYO5QIHGSVY53DBGFWQB7OSD",
+      "name": "TFT",
+      "org": "unknown",
+      "domain": "www2.threefold.io",
+      "decimals": 7
+    },
+    {
+      "code": "DOCS",
+      "issuer": "GDIRSBBR57VMNUWI527RBJD63YXU4KB4NO5KR44RVUPTBLUAQMAXGNBN",
+      "contract": "CDNMTECO46LZAJAJMGRI7J3R2TEE46CVSTSSVMQCYRV63562M4PIKYL2",
+      "name": "DOCS",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "MBAUDD",
+      "issuer": "GD2YNRNSJ3EOFJAYGLKGKSIOLX2VU3UFDW3YFNOYMAHB26AEHSZBJU4U",
+      "contract": "CCOFABZERVSUX2ZQXR42FX5VHXBA4A5VI3TBINLPCFKT4L2PBOVEOOGM",
+      "name": "MBAUDD",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "USD",
+      "issuer": "GD3ZV4RCJ3THCIQ2DPPZKS2WJVDW4OKTH2DOEQWTUUH5CPEVPMWO25FY",
+      "contract": "CCHGM66GZHTPB7CEOT5YBJ2IM7R4PHDUTT2S36T3ARJR2DFSGDWL773T",
+      "name": "USD",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "DOCS",
+      "issuer": "GD3ZV4RCJ3THCIQ2DPPZKS2WJVDW4OKTH2DOEQWTUUH5CPEVPMWO25FY",
+      "contract": "CARIV5D6ORHYD5FC4OKRRHZXGQTQF5A46DFIRWTEWW5XASQWBQIBKXFA",
+      "name": "DOCS",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "BTC",
+      "issuer": "GAHPYWLK6YRN7CVYZOO4H3VDRZ7PVF5UJGLZCSPAEIKJE2XSWF5LAGER",
+      "contract": "CBSXOAE7GAW7Y3CHTNZ3D4GLB6KI43MC36DY7GTZN4AGI7AWQ5V55YIQ",
+      "name": "BTC",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "IGOR9000",
+      "issuer": "GBMN3TR7M56LHLFYKL2QOUWE466MF2BRR5DHAGYYCGID7DK35LTF7ZOB",
+      "contract": "CAJCC2FMZSB2J5PAKQYDRQVUP3WTFIZYOTSJMFUTK44BEQBTLMTN3777",
+      "name": "IGOR9000",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "USDCAllow",
+      "issuer": "GAWZGWFOURKXZ4XYXBGFADZM4QIG6BJNM74XIZCEIU3BHM62RN2MDEZN",
+      "contract": "CAZ5AGSIK7EGAPUT5EBEBGZXZCHHR4G7NR6VQE55HBEV6ESZ2P7N4GEU",
+      "name": "USDCAllow",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "USDT",
+      "issuer": "GCETHERDS3G5XJWSU3TBOPOR4A4I3FCA6ASOITITEPKDKD2HTJUF5ZFM",
+      "contract": "CBQBHR7KRGDS3LIMA4EMEJXIVWG5TXRDKTHM6WSBSV4MLZ7D6SCGZUGR",
+      "name": "USDT",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "USDT",
+      "issuer": "GCTRXN7T4HWHY3ACFC4JHO72FXDVDALSVY5JRACBYJX3AXV7B46G4LNA",
+      "contract": "CBO7VZBZ6W7D3N6SXHLOKHACRW5SJNZNJFGIK2X3EU247UPWWPLSVEGV",
+      "name": "USDT",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "USD",
+      "issuer": "GDIRSBBR57VMNUWI527RBJD63YXU4KB4NO5KR44RVUPTBLUAQMAXGNBN",
+      "contract": "CC7PFWIG7NZ7LU3ED7FJEHGFU63XVYM6YSD6N3A3XENLHDPT63OULCXU",
+      "name": "USD",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "USD",
+      "issuer": "GANCKFGWXAEMJ53GP6VIEHIHRCFO3CIG5ID54WEO7YDR32Y6OG4N2PTU",
+      "contract": "CB2BPNOJQ2GP4DZZG43WIZKQ63AIPG56NL23SNK33O4HH5MZNBAOC34C",
+      "name": "USD",
+      "org": "unknown",
+      "domain": "assets.realtybits.com",
+      "decimals": 7
+    },
+    {
+      "code": "KES",
+      "issuer": "GANDGDF7ZHF7RVXMI53PUSCMVWEFANGTZ4RLEH2DGPDFI5BGWYOLAXRR",
+      "contract": "CBPSHF5H72UPTJ7XJVDL5W3TIYFOVAYOFE43BQCVLBZT67NAS3G43BEN",
+      "name": "KES",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "USDc",
+      "issuer": "GBSRM7EWSJN2QN3E5UZKLPW6HICTTCN6DNNSTY5MZPFG66RXRPDQEVPS",
+      "contract": "CBGI3QMM5UQWMO3Y7QR4MD3AMGPGAUD3YQENWX37KR3L5VVJKPT2SUOC",
+      "name": "USDc",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "gaNGN",
+      "issuer": "GAZQU3TCVSPRYWFJ3E636GUIAEW6WCMCYCE3MN5H6XTCKZY4VYCYITN5",
+      "contract": "CC6MTALT533H5VYMAMB2ULMMJUCJQB7MWZPETHLCJJ75UGJP7LM3MTDI",
+      "name": "gaNGN",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "THB",
+      "issuer": "GCLPOOKCAA3RD6HJEJTQ6ZU2HTITM2OQYXXDJT3AVS5MMTOK4EISWLCA",
+      "contract": "CDTB7O3JOBOD4EIRJJNAHGVSFM6ZJNBW2WWPCZILUCBPNJ5IJTUNO53K",
+      "name": "THB",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "PURPLE",
+      "issuer": "GBT4VVTDPCNA45MNWX5G6LUTLIEENSTUHDVXO2AQHAZ24KUZUPLPGJZH",
+      "contract": "CDNK6A76IAMGUTYGDVROHYDICO4SXH2C4SU77IXDAY6BHRERJFMJPRAK",
+      "name": "PURPLE",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "XOFS",
+      "issuer": "GCIGYSZXK3XBLGJXRQ747LMLIKEZXOEETHQ2Y725AIIIEFBPVY3NDDHL",
+      "contract": "CA5WLSBPKR6L6SDOU6KJAIEIXLEHHK4TZOPY2FB25HOO6RJZVCNFU6PV",
+      "name": "XOFS",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "RAHAT",
+      "issuer": "GCVLRQHGZYG32HZE3PKZ52NX5YFCNFDBUZDLUXQYMRS6WVBWSUOP5IYE",
+      "contract": "CB5ODLE3AWHEFFDPSKWEDLDX74YXKDJRMRODIWUMVDNUGTRSD3VRYU2B",
+      "name": "RAHAT",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "eUAH",
+      "issuer": "GCMNDHDRSBP6ZBVSSDXGAUR7JUJHZF3QA66UAZNFLOVTPJ7HAAUE4M5L",
+      "contract": "CAKRXTZ6LXNOCMVJRNL2N5P4RO5Y4UMOVRS5I2JEWKIWDRGD5PVW34US",
+      "name": "eUAH",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "USDC",
+      "issuer": "GATALTGTWIOT6BUDBCZM3Q4OQ4BO2COLOAZ7IYSKPLC2PMSOPPGF5V56",
+      "contract": "CAQCFVLOBK5GIULPNZRGATJJMIZL5BSP7X5YJVMGCPTUEPFM4AVSRCJU",
+      "name": "USDC",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "wETH",
+      "issuer": "GATALTGTWIOT6BUDBCZM3Q4OQ4BO2COLOAZ7IYSKPLC2PMSOPPGF5V56",
+      "contract": "CAZAQB3D7KSLSNOSQKYD2V4JP5V2Y3B4RDJZRLBFCCIXDCTE3WHSY3UE",
+      "name": "wETH",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "PEN",
+      "issuer": "GALVTUIOIAXUB7FHCUS4PFPMILNIGG4DW4S2MHMB2EG7URASFBR5H374",
+      "contract": "CA3YV4CQY5LGD5LHAFPMOT3BXMHKWLJFYBGAGKUGJNSMZXNUTXETJMEG",
+      "name": "PEN",
+      "org": "unknown",
+      "domain": "api-stage.anclap.ar",
+      "decimals": 7
+    },
+    {
+      "contract": "CAS7WHY4XXBESA4QIYQVL52AZFTJPUEQ5BXPES6OF4PI5JA3L7RM5Q2B",
+      "name": "CAS7WHY4XXBESA4QIYQVL52AZFTJPUEQ5BXPES6OF4PI5JA3L7RM5Q2B",
+      "org": "unknown"
+    },
+    {
+      "code": "USDC",
+      "issuer": "GBL74ETHLQJQUQW7YQT4KO3HJVR74TIHSBW6ENRBSFHUTATBRKKLGW4Y",
+      "contract": "CBAJGVMQQGGECN7NRSJGWD3Z4JVZAK662P6MPYRWXGRJEIWBNOONADER",
+      "name": "USDC",
+      "org": "unknown",
+      "domain": "dev.blocktimefinancial.com",
+      "decimals": 7
+    },
+    {
+      "code": "USD",
+      "issuer": "GD6VGITJZ6CHVEACFVCDGM42DTSPHGF7N6KRJ2QS7X2CXRO5AEDHTWTU",
+      "contract": "CBXDY53VDW3IFISRJP7LZIZ4JCAYJEFFPCB6QVJJ6Y5RX5BY5IPNITKQ",
+      "name": "USD",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "ARS",
+      "issuer": "GD6VGITJZ6CHVEACFVCDGM42DTSPHGF7N6KRJ2QS7X2CXRO5AEDHTWTU",
+      "contract": "CCILIFLX6ATB4LTFB52X5EJQLIXJWYULVVCIJTK4X4G3PEEYU5HA6SED",
+      "name": "ARS",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "USD",
+      "issuer": "GDT2Z2P52EATSQZVPEKCJ76WHJCWJODG6GZFG2C2W3LD5CFZD64YOBF4",
+      "contract": "CBPBWWICXELWVBBQ24SH22TML32B6VGY4DPSYNQEGQQJSANOHJZC7QHP",
+      "name": "USD",
+      "org": "unknown",
+      "decimals": 7
+    },
+    {
+      "code": "KORPO",
+      "issuer": "GC3MXD2BWVCJEOTDPXR74SCG4FHYX6ZU37FXNPHOWDYQQXTA3GCF3G55",
+      "contract": "CBJPJDQE4CW6TSOIQYWNCWUNCEVQQCJARKCDQELUQA35PH7553PGIDRM",
+      "name": "KORPO",
+      "org": "unknown",
+      "domain": "korpo.testiodnud.online",
+      "decimals": 7
+    },
+    {
+      "code": "KIROP",
+      "issuer": "GBYQJDKMWERR65T72W2GSAZFTNZMOSVSPDCJVAKCOI5K3M2UCGK666O7",
+      "contract": "CDCE5BZ22TGYL2O2YDOZK4CID4AOWMM54KPZPD2UUQCFJK47HQUYXBCL",
+      "name": "KIROP",
+      "org": "unknown",
+      "domain": "kirop.testiodnud.online",
+      "decimals": 7
+    },
+    {
+      "code": "USDC",
+      "issuer": "GCIJWE26EAHTSJ6HSPM2WICZICNZW4A6MZKK6QBEQR327XT6F6AMYNYN",
+      "contract": "CD2Z3XAYHGYVKV6UWH2Z6SP34DQ4DZ6AZ2COTOJOUUR5ENSLITDZDIHV",
+      "name": "USDC",
+      "org": "unknown",
+      "domain": "mesh-dev-tokens.mesh.trade",
+      "decimals": 7
+    },
+    {
+      "contract": "CAZWUFOISXHM4TU5RRHTDHME3AJKHQW7QKIIR5CWZL2R5QNADLOPK4MZ",
+      "name": "CAZWUFOISXHM4TU5RRHTDHME3AJKHQW7QKIIR5CWZL2R5QNADLOPK4MZ",
+      "org": "unknown"
+    },
+    {
+      "code": "USDC",
+      "issuer": "GAKNDFRRWA3RPWNLTI3G4EBSD3RGNZZOY5WKWYMQ6CQTG3KIEKPYWAYC",
+      "contract": "CCJPID27ZHRDCXIPTMAXBE7UTQXN73U7N3CDNP6R2NPQQWKUGQW2UGEA",
+      "name": "USDC",
+      "org": "unknown",
       "decimals": 7
     }
   ]
