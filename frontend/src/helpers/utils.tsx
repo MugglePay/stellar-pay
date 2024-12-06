@@ -94,3 +94,90 @@ export const i128ToScVal = (i: bigint): xdr.ScVal => {
     })
   );
 };
+
+export const decodei128ScVal = (value: StellarSdk.xdr.ScVal) => {
+  try {
+    return new I128([
+      BigInt(value.i128().lo().low),
+      BigInt(value.i128().lo().high),
+      BigInt(value.i128().hi().low),
+      BigInt(value.i128().hi().high),
+    ]).toString();
+  } catch (error) {
+    return 0;
+  }
+};
+
+export function scvalToBigNumber(
+  scval: StellarSdk.xdr.ScVal | undefined
+): BigNumber {
+  switch (scval?.switch()) {
+    case undefined: {
+      return BigNumber(0);
+    }
+    case xdr.ScValType.scvU32(): {
+      return BigNumber(scval.u32());
+    }
+    case xdr.ScValType.scvI32(): {
+      return BigNumber(scval.i32());
+    }
+    case xdr.ScValType.scvU64(): {
+      const { high, low } = scval.u64();
+      return bigNumberFromBytes(false, high, low);
+    }
+    case xdr.ScValType.scvI64(): {
+      const { high, low } = scval.i64();
+      return bigNumberFromBytes(true, high, low);
+    }
+    case xdr.ScValType.scvU128(): {
+      const parts = scval.u128();
+      const hi = parts.hi();
+      const lo = parts.lo();
+      return bigNumberFromBytes(false, lo.low, lo.high, hi.low, hi.high);
+    }
+    case xdr.ScValType.scvI128(): {
+      return BigNumber(decodei128ScVal(scval));
+    }
+    case xdr.ScValType.scvU256(): {
+      const parts = scval.u256();
+      const a = parts.hiHi();
+      const b = parts.hiLo();
+      const c = parts.loHi();
+      const d = parts.loLo();
+      return bigNumberFromBytes(
+        false,
+        a.high,
+        a.low,
+        b.high,
+        b.low,
+        c.high,
+        c.low,
+        d.high,
+        d.low
+      );
+    }
+    case xdr.ScValType.scvI256(): {
+      const parts = scval.i256();
+      const a = parts.hiHi();
+      const b = parts.hiLo();
+      const c = parts.loHi();
+      const d = parts.loLo();
+      return bigNumberFromBytes(
+        true,
+        a.high,
+        a.low,
+        b.high,
+        b.low,
+        c.high,
+        c.low,
+        d.high,
+        d.low
+      );
+    }
+    default: {
+      throw new Error(
+        `Invalid type for scvalToBigNumber: ${scval?.switch().name}`
+      );
+    }
+  }
+}

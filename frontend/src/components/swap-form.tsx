@@ -16,7 +16,6 @@ import {
   Account,
   Asset,
   BASE_FEE,
-  Memo,
   nativeToScVal,
   Operation,
   TransactionBuilder,
@@ -33,7 +32,7 @@ function SwapForm() {
 
   const { contractAddress, nativeToken, outputToken, passphrase, rpcUrl } = env;
 
-  async function getExpirationLedger(ledgerOffset = 60) {
+  async function getExpirationLedger(ledgerOffset = 100) {
     try {
       // Get latest ledger
       const ledger = await server?.ledgers().order("desc").limit(1).call();
@@ -69,6 +68,7 @@ function SwapForm() {
           publicKey,
           String(accountDetails?.sequence ?? 0)
         );
+
         const transaction = new TransactionBuilder(source, {
           fee: BASE_FEE,
           networkPassphrase: passphrase,
@@ -80,9 +80,11 @@ function SwapForm() {
               args: args,
             })
           )
-          .setTimeout(180)
+          .setTimeout(30)
+          .setNetworkPassphrase(passphrase)
           .build();
 
+        // Specific handling for Freighter wallet
         const signedTx = await kit?.signTransaction(transaction.toXDR(), {
           address: publicKey,
           networkPassphrase: passphrase,
@@ -124,7 +126,6 @@ function SwapForm() {
           networkPassphrase: passphrase,
         })
           .addOperation(opt)
-          .addMemo(Memo.text(new Date().toISOString()))
           .setTimeout(180)
           .build();
 
