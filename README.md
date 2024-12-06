@@ -20,16 +20,14 @@ Stellar Pay is a decentralized payment protocol built on the Stellar blockchain,
 
 ### Blockchain
 
-- Stellar Network
 - Soroban Smart Contracts
-- XDR Transaction Handling
+- [Soroswap Router](https://github.com/soroswap/core)
 
 ### Frontend
 
 - React
 - TypeScript
 - Chakra UI
-- Tailwind CSS
 
 ### Wallet Integration
 
