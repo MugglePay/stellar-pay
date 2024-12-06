@@ -92,7 +92,7 @@ impl MuggleDex {
         }
 
         // Require authorization from admin instead of recipient
-        read_admin(&env).require_auth();
+        // read_admin(&env).require_auth();
 
         let deadline = expiration_ledger;
         // Authorization for create order to verify their identity
@@ -167,7 +167,7 @@ impl MuggleDex {
 
         let total_swapped_amount = swapped.last().unwrap();
 
-        /* // Check allowance between merchant and contract address
+        // Check allowance between merchant and contract address
         if output_token_client.allowance(&merchant, &contract_address) < (total_swapped_amount as i128) {
             output_token_client.approve(
                 &merchant,
@@ -175,7 +175,7 @@ impl MuggleDex {
                 &total_swapped_amount,
                 &deadline,
             );
-        } */
+        }
 
         // Transfer from contract address to merchant
         output_token_client.transfer(&contract_address, &merchant.clone(), &total_swapped_amount);
