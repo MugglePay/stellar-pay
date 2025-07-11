@@ -1,11 +1,11 @@
+require('dotenv').config();
 const StellarSdk = require('@stellar/stellar-sdk');
 
 // === ENVIRONMENT CONFIG ===
 const HORIZON_SERVER = "https://horizon.stellar.org";
 const NETWORK_PASSPHRASE = StellarSdk.Networks.PUBLIC;
 
-// === ACCOUNTS ===
-const PAYMASTER_SECRET = "SCCLO63G65CB3ZCT6D2QPJU3G27QXJGRZFQZ3XTFAEMKCTFGNWIQIW5Z";
+
 const BOB_ADDRESS = "GCVE5VUTIMCSUOHOIJVOEEBTM2SWNMLB4QKMM2GBPODZPE56TG3REXSN";
 
 // === TOKENS ===
@@ -36,7 +36,7 @@ const swap = async () => {
             allowHttp: true
         });
 
-        const paymasterKeypair = StellarSdk.Keypair.fromSecret(PAYMASTER_SECRET);
+        const paymasterKeypair = StellarSdk.Keypair.fromSecret(process.env.PAYMASTER_SECRET);
         const paymasterPublicKey = paymasterKeypair.publicKey();
         console.log("Paymaster account:", paymasterPublicKey);
         console.log("Destination (Bob's) account:", BOB_ADDRESS);
