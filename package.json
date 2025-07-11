@@ -1,0 +1,17 @@
+{
+  "name": "swap_xlm_usdc",
+  "version": "1.0.0",
+  "description": "Script to swap XLM to USDC using Soroswap",
+  "main": "index.js",
+  "scripts": {
+    "start": "node soroswap.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@stellar/stellar-sdk": "^11.3.0",
+    "node-fetch": "^2.7.0"
+  }
+}
